@@ -1,0 +1,61 @@
+
+class QuoteService {
+  static const List<String> quotes = [
+    'Believe in the beauty of your own journey.',
+    'Small steps still move you forward.',
+    'You deserve moments of peace and happiness.',
+    'Bloom at your own pace.',
+    'Every morning is another chance to begin.',
+    'Be proud of how far you have come.',
+    'Your dreams are worth your patience.',
+    'Take a breath. You are allowed to slow down.',
+    'Make room for things that make your heart happy.',
+    'A little progress is still progress.',
+    'You do not have to have everything figured out today.',
+    'Let kindness begin with yourself.',
+    'Choose progress over perfection.',
+    'Your quiet growth is still growth.',
+    'There is beauty in starting again.',
+    'Give yourself the same kindness you give others.',
+    'Some days, simply showing up is enough.',
+    'Trust the timing of your own journey.',
+    'You can be a work in progress and still be wonderful.',
+    'Rest is part of the journey too.',
+    'Let your dreams be bigger than your fears.',
+    'You are learning more than you realize.',
+    'Find joy in the little things.',
+    'Protect your peace and nurture your curiosity.',
+    'A gentle heart is a powerful thing.',
+    'Every chapter teaches you something valuable.',
+    'You are allowed to change and grow.',
+    'Make today meaningful in your own way.',
+    'Keep going, even if your steps are small.',
+    'Your future is shaped by the little things you do today.',
+    'Be patient with yourself as you learn.',
+    'You can start again whenever you need to.',
+    'Celebrate the things you usually overlook.',
+    'Let your life grow beyond your comfort zone.',
+    'There is no single path to becoming yourself.',
+    'Your effort matters, even when nobody sees it.',
+    'Choose hope when the next step feels uncertain.',
+    'Give yourself permission to learn slowly.',
+    'Good things can grow from ordinary days.',
+    'You are more than one difficult moment.',
+    'Keep a little space for wonder.',
+    'Make time for the things that bring you peace.',
+    'You do not need to rush your becoming.',
+    'Every skill begins with being a beginner.',
+    'Keep your heart open to new possibilities.',
+    'A calm mind can make room for fresh ideas.',
+    'Let today be simple and good.',
+    'You can be both nervous and brave.',
+    'Grow through what you learn.',
+    'May your coffee be warm and your day be kind.',
+  ];
+
+  static String get randomQuote {
+    final now = DateTime.now();
+    final index = (now.microsecondsSinceEpoch % quotes.length).toInt();
+    return quotes[index];
+  }
+}
