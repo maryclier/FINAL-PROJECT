@@ -1,10 +1,6 @@
-﻿
-import 'package:flutter/material.dart';
-import '../models/coffee_item.dart';
+﻿import 'package:flutter/material.dart';
 
-const cardPurple = Color(0xFF30203D);
-const cardPink = Color(0xFFF2A6D0);
-const cardLilac = Color(0xFFBBA6D0);
+import '../models/coffee_item.dart';
 
 class ProductCard extends StatelessWidget {
   final CoffeeItem item;
@@ -20,38 +16,24 @@ class ProductCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: cardPurple,
+        color: const Color(0xFF281B36),
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: cardLilac.withValues(alpha: 0.15)),
+        border: Border.all(
+          color: const Color(0xFF493454),
+        ),
       ),
       clipBehavior: Clip.antiAlias,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Expanded(
-            flex: 5,
-            child: SizedBox(
-              width: double.infinity,
-              child: Image.network(
-                item.image,
-                fit: BoxFit.cover,
-                errorBuilder: (_, __, ___) => const ColoredBox(
-                  color: Color(0xFF493552),
-                  child: Center(
-                    child: Icon(
-                      Icons.coffee_rounded,
-                      color: cardPink,
-                      size: 38,
-                    ),
-                  ),
-                ),
-              ),
-            ),
+          SizedBox(
+            width: double.infinity,
+            height: 112,
+            child: _buildImage(),
           ),
           Expanded(
-            flex: 4,
             child: Padding(
-              padding: const EdgeInsets.all(10),
+              padding: const EdgeInsets.fromLTRB(9, 7, 7, 6),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -61,18 +43,18 @@ class ProductCard extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                     style: const TextStyle(
                       color: Colors.white,
+                      fontSize: 12,
                       fontWeight: FontWeight.bold,
-                      fontSize: 13,
                     ),
                   ),
-                  const SizedBox(height: 4),
+                  const SizedBox(height: 3),
                   Expanded(
                     child: Text(
                       item.description,
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                       style: const TextStyle(
-                        color: cardLilac,
+                        color: Colors.white60,
                         fontSize: 10,
                       ),
                     ),
@@ -81,23 +63,31 @@ class ProductCard extends StatelessWidget {
                     children: [
                       Expanded(
                         child: Text(
-                          'â‚±${item.price.toStringAsFixed(0)}',
+                          '₱${item.price.toStringAsFixed(2)}',
+                          maxLines: 1,
                           style: const TextStyle(
-                            color: cardPink,
+                            color: Color(0xFFFFA6D5),
+                            fontSize: 12,
                             fontWeight: FontWeight.bold,
-                            fontSize: 14,
                           ),
                         ),
                       ),
-                      InkWell(
-                        onTap: onAdd,
-                        borderRadius: BorderRadius.circular(10),
-                        child: const Padding(
-                          padding: EdgeInsets.all(5),
-                          child: Icon(
-                            Icons.add_shopping_cart_rounded,
-                            color: cardPink,
-                            size: 20,
+                      SizedBox(
+                        width: 29,
+                        height: 29,
+                        child: IconButton(
+                          padding: EdgeInsets.zero,
+                          onPressed: onAdd,
+                          icon: const Icon(
+                            Icons.add_rounded,
+                            color: Color(0xFF21142F),
+                            size: 19,
+                          ),
+                          style: IconButton.styleFrom(
+                            backgroundColor: const Color(0xFFFFA6D5),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(9),
+                            ),
                           ),
                         ),
                       ),
@@ -111,7 +101,26 @@ class ProductCard extends StatelessWidget {
       ),
     );
   }
+
+  Widget _buildImage() {
+    final imageProvider = item.image.startsWith('assets/')
+        ? AssetImage(item.image) as ImageProvider
+        : NetworkImage(item.image);
+
+    return Image(
+      image: imageProvider,
+      fit: BoxFit.cover,
+      errorBuilder: (context, error, stackTrace) {
+        return Container(
+          color: const Color(0xFF633A91),
+          alignment: Alignment.center,
+          child: const Icon(
+            Icons.coffee_rounded,
+            color: Colors.white,
+            size: 32,
+          ),
+        );
+      },
+    );
+  }
 }
-
-
-

@@ -9,6 +9,7 @@ import 'screens/menu_screen.dart';
 import 'screens/music_screen.dart';
 import 'screens/profile_screen.dart';
 import 'screens/quotes_screen.dart';
+import 'screens/welcome_screen.dart';
 import 'services/auth_service.dart';
 import 'widgets/bottom_nav.dart';
 
@@ -75,8 +76,11 @@ class AuthGate extends StatefulWidget {
 
 class _AuthGateState extends State<AuthGate> {
   final AuthService _authService = AuthService();
+
   bool _checking = true;
   bool _loggedIn = false;
+  bool _showWelcome = true;
+
   String _name = 'Coffee Lover';
   String _email = 'hello@brewandbloom.com';
 
@@ -102,11 +106,17 @@ class _AuthGateState extends State<AuthGate> {
   }
 
   Future<void> _login() async {
-    await _authService.login(name: _name, email: _email);
+    await _authService.login(
+      name: _name,
+      email: _email,
+    );
 
     if (!mounted) return;
 
-    setState(() => _loggedIn = true);
+    setState(() {
+      _loggedIn = true;
+      _showWelcome = false;
+    });
   }
 
   Future<void> _logout() async {
@@ -114,11 +124,19 @@ class _AuthGateState extends State<AuthGate> {
 
     if (!mounted) return;
 
-    setState(() => _loggedIn = false);
+    setState(() {
+      _loggedIn = false;
+      _showWelcome = true;
+      _name = 'Coffee Lover';
+      _email = 'hello@brewandbloom.com';
+    });
   }
 
   Future<void> _saveProfile(String name, String email) async {
-    await _authService.updateProfile(name: name, email: email);
+    await _authService.updateProfile(
+      name: name,
+      email: email,
+    );
 
     if (!mounted) return;
 
@@ -141,8 +159,20 @@ class _AuthGateState extends State<AuthGate> {
       );
     }
 
+    if (!_loggedIn && _showWelcome) {
+      return WelcomeScreen(
+        onGetStarted: () {
+          setState(() {
+            _showWelcome = false;
+          });
+        },
+      );
+    }
+
     if (!_loggedIn) {
-      return LoginScreen(onLogin: _login);
+      return LoginScreen(
+        onLogin: _login,
+      );
     }
 
     return MainShell(
@@ -174,6 +204,7 @@ class MainShell extends StatefulWidget {
 
 class _MainShellState extends State<MainShell> {
   int _currentIndex = 0;
+
   final Map<CoffeeItem, int> _cart = {};
 
   int get _cartCount =>
@@ -223,7 +254,9 @@ class _MainShellState extends State<MainShell> {
       ),
     );
 
-    if (mounted) setState(() {});
+    if (mounted) {
+      setState(() {});
+    }
   }
 
   Future<void> _checkout() async {
@@ -262,13 +295,17 @@ class _MainShellState extends State<MainShell> {
 
     if (confirmed != true || !mounted) return;
 
-    setState(() => _cart.clear());
+    setState(() {
+      _cart.clear();
+    });
 
     Navigator.of(context).pop();
 
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
-        content: Text('Order placed successfully! Thank you for choosing Brew & Bloom.'),
+        content: Text(
+          'Order placed successfully! Thank you for choosing Brew & Bloom.',
+        ),
         backgroundColor: Color(0xFF633A91),
         duration: Duration(seconds: 3),
       ),
@@ -285,9 +322,11 @@ class _MainShellState extends State<MainShell> {
         onBrowseMusic: () => setState(() => _currentIndex = 3),
         onAdd: _addToCart,
       ),
-      MenuScreen(onAdd: _addToCart),
+      MenuScreen(
+        onAdd: _addToCart,
+      ),
       const QuotesScreen(),
-       const MusicScreen(),
+      const MusicScreen(),
       ProfileScreen(
         name: widget.name,
         email: widget.email,
@@ -305,7 +344,9 @@ class _MainShellState extends State<MainShell> {
       bottomNavigationBar: BottomNav(
         currentIndex: _currentIndex,
         onTap: (index) {
-          setState(() => _currentIndex = index);
+          setState(() {
+            _currentIndex = index;
+          });
         },
       ),
       floatingActionButton: FloatingActionButton(
