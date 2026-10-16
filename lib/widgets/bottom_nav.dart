@@ -4,18 +4,14 @@ class BottomNav extends StatelessWidget {
   final int currentIndex;
   final ValueChanged<int> onTap;
 
-  const BottomNav({
-    super.key,
-    required this.currentIndex,
-    required this.onTap,
-  });
+  const BottomNav({super.key, required this.currentIndex, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
     return NavigationBar(
       height: 72,
-      backgroundColor: const Color(0xFF21142F),
-      indicatorColor: const Color(0xFF633A91),
+      backgroundColor: const Color(0xFF58406B),
+      indicatorColor: const Color(0xFFA970D8),
       selectedIndex: currentIndex,
       onDestinationSelected: onTap,
       destinations: const [

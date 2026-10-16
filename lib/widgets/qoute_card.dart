@@ -19,10 +19,7 @@ class QuoteCard extends StatelessWidget {
       padding: const EdgeInsets.all(22),
       decoration: BoxDecoration(
         gradient: const LinearGradient(
-          colors: [
-            Color(0xFF633A91),
-            Color(0xFF382052),
-          ],
+          colors: [Color(0xFFA970D8), Color(0xFF724E84)],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
@@ -34,7 +31,7 @@ class QuoteCard extends StatelessWidget {
         children: [
           const Icon(
             Icons.format_quote_rounded,
-            color: Color(0xFFFFA6D5),
+            color: Color(0xFFFF9FD3),
             size: 35,
           ),
           const SizedBox(height: 12),
@@ -51,7 +48,7 @@ class QuoteCard extends StatelessWidget {
           Text(
             '— $author',
             style: const TextStyle(
-              color: Color(0xFFFFB8DF),
+              color: Color(0xFFFFC0E3),
               fontSize: 13,
               fontWeight: FontWeight.w600,
             ),
@@ -66,7 +63,7 @@ class QuoteCard extends StatelessWidget {
                 label: const Text('Another quote'),
                 style: OutlinedButton.styleFrom(
                   foregroundColor: Colors.white,
-                  side: const BorderSide(color: Color(0xFFFFA6D5)),
+                  side: const BorderSide(color: Color(0xFFFF9FD3)),
                 ),
               ),
             ),

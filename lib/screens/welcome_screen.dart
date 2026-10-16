@@ -3,14 +3,11 @@ import 'package:flutter/material.dart';
 class WelcomeScreen extends StatelessWidget {
   final VoidCallback onGetStarted;
 
-  const WelcomeScreen({
-    super.key,
-    required this.onGetStarted,
-  });
+  const WelcomeScreen({super.key, required this.onGetStarted});
 
-  static const Color background = Color(0xFF160F20);
-  static const Color purple = Color(0xFF633A91);
-  static const Color pink = Color(0xFFFFA6D5);
+  static const Color background = Color(0xFF463453);
+  static const Color purple = Color(0xFFA970D8);
+  static const Color pink = Color(0xFFFF9FD3);
 
   @override
   Widget build(BuildContext context) {
@@ -238,24 +235,15 @@ class _FeatureCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Expanded(
       child: Container(
-        padding: const EdgeInsets.symmetric(
-          horizontal: 5,
-          vertical: 13,
-        ),
+        padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 13),
         decoration: BoxDecoration(
-          color: const Color(0xFF281B36),
+          color: const Color(0xFF61466D),
           borderRadius: BorderRadius.circular(16),
-          border: Border.all(
-            color: const Color(0xFF493454),
-          ),
+          border: Border.all(color: const Color(0xFF8C6B9A)),
         ),
         child: Column(
           children: [
-            Icon(
-              icon,
-              color: const Color(0xFFFFA6D5),
-              size: 25,
-            ),
+            Icon(icon, color: const Color(0xFFFF9FD3), size: 25),
             const SizedBox(height: 8),
             Text(
               title,
@@ -269,10 +257,7 @@ class _FeatureCard extends StatelessWidget {
             Text(
               subtitle,
               textAlign: TextAlign.center,
-              style: const TextStyle(
-                color: Colors.white60,
-                fontSize: 9,
-              ),
+              style: const TextStyle(color: Colors.white60, fontSize: 9),
             ),
           ],
         ),

@@ -1,5 +1,5 @@
-
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'models/coffee_item.dart';
 import 'screens/cart_screen.dart';
@@ -29,36 +29,33 @@ class BrewBloomApp extends StatelessWidget {
       theme: ThemeData(
         useMaterial3: true,
         brightness: Brightness.dark,
-        scaffoldBackgroundColor: const Color(0xFF160F20),
+        scaffoldBackgroundColor: const Color(0xFF463453),
         colorScheme: ColorScheme.fromSeed(
-          seedColor: const Color(0xFF633A91),
+          seedColor: const Color(0xFFA970D8),
           brightness: Brightness.dark,
-          primary: const Color(0xFF633A91),
-          secondary: const Color(0xFFFFA6D5),
-          surface: const Color(0xFF281B36),
+          primary: const Color(0xFFA970D8),
+          secondary: const Color(0xFFFF9FD3),
+          surface: const Color(0xFF61466D),
         ),
         appBarTheme: const AppBarTheme(
-          backgroundColor: Color(0xFF160F20),
+          backgroundColor: Color(0xFF463453),
           foregroundColor: Colors.white,
           elevation: 0,
         ),
         inputDecorationTheme: InputDecorationTheme(
           filled: true,
-          fillColor: const Color(0xFF281B36),
+          fillColor: const Color(0xFF61466D),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(15),
-            borderSide: const BorderSide(color: Color(0xFF493454)),
+            borderSide: const BorderSide(color: Color(0xFF8C6B9A)),
           ),
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(15),
-            borderSide: const BorderSide(color: Color(0xFF493454)),
+            borderSide: const BorderSide(color: Color(0xFF8C6B9A)),
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(15),
-            borderSide: const BorderSide(
-              color: Color(0xFFFFA6D5),
-              width: 1.5,
-            ),
+            borderSide: const BorderSide(color: Color(0xFFFF9FD3), width: 1.5),
           ),
         ),
       ),
@@ -105,17 +102,16 @@ class _AuthGateState extends State<AuthGate> {
     });
   }
 
-  Future<void> _login() async {
-    await _authService.login(
-      name: _name,
-      email: _email,
-    );
+  Future<void> _login(String name, String email) async {
+    await _authService.login(name: name, email: email);
 
     if (!mounted) return;
 
     setState(() {
       _loggedIn = true;
       _showWelcome = false;
+      _name = name;
+      _email = email;
     });
   }
 
@@ -133,10 +129,7 @@ class _AuthGateState extends State<AuthGate> {
   }
 
   Future<void> _saveProfile(String name, String email) async {
-    await _authService.updateProfile(
-      name: name,
-      email: email,
-    );
+    await _authService.updateProfile(name: name, email: email);
 
     if (!mounted) return;
 
@@ -150,11 +143,9 @@ class _AuthGateState extends State<AuthGate> {
   Widget build(BuildContext context) {
     if (_checking) {
       return const Scaffold(
-        backgroundColor: Color(0xFF160F20),
+        backgroundColor: Color(0xFF463453),
         body: Center(
-          child: CircularProgressIndicator(
-            color: Color(0xFFFFA6D5),
-          ),
+          child: CircularProgressIndicator(color: Color(0xFFFF9FD3)),
         ),
       );
     }
@@ -170,9 +161,7 @@ class _AuthGateState extends State<AuthGate> {
     }
 
     if (!_loggedIn) {
-      return LoginScreen(
-        onLogin: _login,
-      );
+      return LoginScreen(onLogin: _login);
     }
 
     return MainShell(
@@ -203,9 +192,44 @@ class MainShell extends StatefulWidget {
 }
 
 class _MainShellState extends State<MainShell> {
+  static const String _selectedTabKey = 'brew_bloom_selected_tab';
+
   int _currentIndex = 0;
+  bool _tabChanged = false;
 
   final Map<CoffeeItem, int> _cart = {};
+
+  @override
+  void initState() {
+    super.initState();
+    _restoreSelectedTab();
+  }
+
+  Future<void> _restoreSelectedTab() async {
+    final preferences = await SharedPreferences.getInstance();
+    final selectedTab = preferences.getInt(_selectedTabKey);
+    if (!mounted ||
+        _tabChanged ||
+        selectedTab == null ||
+        selectedTab < 0 ||
+        selectedTab >= 5) {
+      return;
+    }
+
+    setState(() {
+      _currentIndex = selectedTab;
+    });
+  }
+
+  Future<void> _selectTab(int index) async {
+    _tabChanged = true;
+    setState(() {
+      _currentIndex = index;
+    });
+
+    final preferences = await SharedPreferences.getInstance();
+    await preferences.setInt(_selectedTabKey, index);
+  }
 
   int get _cartCount =>
       _cart.values.fold(0, (total, quantity) => total + quantity);
@@ -219,7 +243,7 @@ class _MainShellState extends State<MainShell> {
       SnackBar(
         content: Text('${item.name} added to your cart'),
         duration: const Duration(seconds: 1),
-        backgroundColor: const Color(0xFF633A91),
+        backgroundColor: const Color(0xFFA970D8),
       ),
     );
   }
@@ -270,7 +294,7 @@ class _MainShellState extends State<MainShell> {
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (dialogContext) => AlertDialog(
-        backgroundColor: const Color(0xFF281B36),
+        backgroundColor: const Color(0xFF61466D),
         title: const Text('Confirm your order'),
         content: Text(
           'Your order total is ₱${total.toStringAsFixed(2)}. '
@@ -284,8 +308,8 @@ class _MainShellState extends State<MainShell> {
           ElevatedButton(
             onPressed: () => Navigator.pop(dialogContext, true),
             style: ElevatedButton.styleFrom(
-              backgroundColor: const Color(0xFFFFA6D5),
-              foregroundColor: const Color(0xFF21142F),
+              backgroundColor: const Color(0xFFFF9FD3),
+              foregroundColor: const Color(0xFF2C2035),
             ),
             child: const Text('Confirm order'),
           ),
@@ -306,7 +330,7 @@ class _MainShellState extends State<MainShell> {
         content: Text(
           'Order placed successfully! Thank you for choosing Brew & Bloom.',
         ),
-        backgroundColor: Color(0xFF633A91),
+        backgroundColor: Color(0xFFA970D8),
         duration: Duration(seconds: 3),
       ),
     );
@@ -317,14 +341,12 @@ class _MainShellState extends State<MainShell> {
     final screens = <Widget>[
       HomeScreen(
         userName: widget.name,
-        onBrowseMenu: () => setState(() => _currentIndex = 1),
-        onBrowseQuotes: () => setState(() => _currentIndex = 2),
-        onBrowseMusic: () => setState(() => _currentIndex = 3),
+        onBrowseMenu: () => _selectTab(1),
+        onBrowseQuotes: () => _selectTab(2),
+        onBrowseMusic: () => _selectTab(3),
         onAdd: _addToCart,
       ),
-      MenuScreen(
-        onAdd: _addToCart,
-      ),
+      MenuScreen(onAdd: _addToCart),
       const QuotesScreen(),
       const MusicScreen(),
       ProfileScreen(
@@ -337,22 +359,15 @@ class _MainShellState extends State<MainShell> {
     ];
 
     return Scaffold(
-      body: IndexedStack(
-        index: _currentIndex,
-        children: screens,
-      ),
+      body: IndexedStack(index: _currentIndex, children: screens),
       bottomNavigationBar: BottomNav(
         currentIndex: _currentIndex,
-        onTap: (index) {
-          setState(() {
-            _currentIndex = index;
-          });
-        },
+        onTap: _selectTab,
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: _openCart,
-        backgroundColor: const Color(0xFFFFA6D5),
-        foregroundColor: const Color(0xFF21142F),
+        backgroundColor: const Color(0xFFFF9FD3),
+        foregroundColor: const Color(0xFF2C2035),
         child: Badge(
           isLabelVisible: _cartCount > 0,
           label: Text('$_cartCount'),

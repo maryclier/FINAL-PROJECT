@@ -1,17 +1,72 @@
-﻿class CoffeeItem {
+class CoffeeItem {
+  final int? id;
+  final int? apiId;
   final String name;
   final String description;
   final double price;
   final String image;
   final String category;
+  final String currencyCode;
 
   const CoffeeItem({
+    this.id,
+    this.apiId,
     required this.name,
     required this.description,
     required this.price,
     required this.image,
     required this.category,
+    this.currencyCode = 'PHP',
   });
+
+  factory CoffeeItem.fromJson(Map<String, dynamic> json) {
+    return CoffeeItem(
+      id: json['id'] as int?,
+      apiId: json['apiId'] as int?,
+      name: json['title'] as String? ?? '',
+      description: json['description'] as String? ?? '',
+      price: (json['price'] as num?)?.toDouble() ?? 0,
+      image: json['thumbnail'] as String? ?? json['image'] as String? ?? '',
+      category: json['category'] as String? ?? 'Other',
+      currencyCode: json['currencyCode'] as String? ?? 'PHP',
+    );
+  }
+
+  factory CoffeeItem.fromApiJson(
+    Map<String, dynamic> json, {
+    required int localId,
+  }) {
+    final apiId = json['id'] as int?;
+    return CoffeeItem(
+      id: localId,
+      apiId: apiId,
+      name: json['title'] as String? ?? '',
+      description: json['description'] as String? ?? '',
+      price: (json['price'] as num?)?.toDouble() ?? 0,
+      image: json['thumbnail'] as String? ?? '',
+      category: 'Coffee',
+      currencyCode: 'USD',
+    );
+  }
+
+  Map<String, dynamic> toJson() => {
+    if (id != null) 'id': id,
+    if (apiId != null) 'apiId': apiId,
+    'title': name,
+    'description': description,
+    'price': price,
+    'thumbnail': image,
+    'category': category,
+    'currencyCode': currencyCode,
+  };
+
+  Map<String, dynamic> toApiJson() => {
+    'title': name,
+    'description': description,
+    'price': price,
+    'thumbnail': image,
+    'category': category,
+  };
 }
 
 const List<CoffeeItem> coffeeMenu = [

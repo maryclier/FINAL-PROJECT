@@ -90,10 +90,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF160F20),
+      backgroundColor: const Color(0xFF463453),
       appBar: AppBar(
         title: const Text('My Profile'),
-        backgroundColor: const Color(0xFF160F20),
+        backgroundColor: const Color(0xFF463453),
       ),
       body: ListView(
         padding: const EdgeInsets.all(20),
@@ -105,10 +105,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               height: 105,
               decoration: BoxDecoration(
                 gradient: const LinearGradient(
-                  colors: [
-                    Color(0xFF633A91),
-                    Color(0xFFFFA6D5),
-                  ],
+                  colors: [Color(0xFFA970D8), Color(0xFFFF9FD3)],
                 ),
                 borderRadius: BorderRadius.circular(35),
               ),
@@ -141,14 +138,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
           Container(
             padding: const EdgeInsets.all(18),
             decoration: BoxDecoration(
-              color: const Color(0xFF281B36),
+              color: const Color(0xFF61466D),
               borderRadius: BorderRadius.circular(20),
             ),
             child: Row(
               children: [
                 const Icon(
                   Icons.shopping_bag_rounded,
-                  color: Color(0xFFFFA6D5),
+                  color: Color(0xFFFF9FD3),
                   size: 32,
                 ),
                 const SizedBox(width: 15),
@@ -164,7 +161,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 Text(
                   '${widget.cartCount}',
                   style: const TextStyle(
-                    color: Color(0xFFFFA6D5),
+                    color: Color(0xFFFF9FD3),
                     fontSize: 23,
                     fontWeight: FontWeight.bold,
                   ),
@@ -179,7 +176,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               const Text(
                 'PERSONAL INFORMATION',
                 style: TextStyle(
-                  color: Color(0xFFFFA6D5),
+                  color: Color(0xFFFF9FD3),
                   fontSize: 12,
                   letterSpacing: 1.5,
                   fontWeight: FontWeight.bold,
@@ -214,8 +211,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
               child: ElevatedButton(
                 onPressed: _saving ? null : _saveProfile,
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFFFFA6D5),
-                  foregroundColor: const Color(0xFF21142F),
+                  backgroundColor: const Color(0xFFFF9FD3),
+                  foregroundColor: const Color(0xFF2C2035),
                 ),
                 child: _saving
                     ? const CircularProgressIndicator()
@@ -224,7 +221,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ),
           ],
           const SizedBox(height: 30),
-          const Divider(color: Color(0xFF493454)),
+          const Divider(color: Color(0xFF8C6B9A)),
           const SizedBox(height: 12),
           const Text(
             'BREW & BLOOM',
@@ -245,8 +242,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
             icon: const Icon(Icons.logout_rounded),
             label: const Text('Log Out'),
             style: OutlinedButton.styleFrom(
-              foregroundColor: const Color(0xFFFFA6D5),
-              side: const BorderSide(color: Color(0xFFFFA6D5)),
+              foregroundColor: const Color(0xFFFF9FD3),
+              side: const BorderSide(color: Color(0xFFFF9FD3)),
               padding: const EdgeInsets.symmetric(vertical: 15),
             ),
           ),
@@ -269,16 +266,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
       decoration: InputDecoration(
         labelText: label,
         labelStyle: const TextStyle(color: Colors.white60),
-        prefixIcon: Icon(icon, color: const Color(0xFFFFA6D5)),
+        prefixIcon: Icon(icon, color: const Color(0xFFFF9FD3)),
         filled: true,
-        fillColor: const Color(0xFF281B36),
+        fillColor: const Color(0xFF61466D),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(15),
           borderSide: BorderSide.none,
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(15),
-          borderSide: const BorderSide(color: Color(0xFF493454)),
+          borderSide: const BorderSide(color: Color(0xFF8C6B9A)),
         ),
       ),
     );

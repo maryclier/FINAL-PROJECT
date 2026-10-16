@@ -1,4 +1,5 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
+
 import '../services/music_service.dart';
 
 class MusicScreen extends StatefulWidget {
@@ -73,7 +74,7 @@ class _MusicScreenState extends State<MusicScreen> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('Unable to play audio: $e'),
-          backgroundColor: const Color(0xFF633A91),
+          backgroundColor: const Color(0xFFA970D8),
         ),
       );
     } finally {
@@ -92,7 +93,7 @@ class _MusicScreenState extends State<MusicScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF160F20),
+      backgroundColor: const Color(0xFF463453),
       appBar: AppBar(
         title: const Text(
           'Music Corner',
@@ -107,10 +108,7 @@ class _MusicScreenState extends State<MusicScreen> {
             padding: const EdgeInsets.all(24),
             decoration: BoxDecoration(
               gradient: const LinearGradient(
-                colors: [
-                  Color(0xFF633A91),
-                  Color(0xFF382052),
-                ],
+                colors: [Color(0xFFA970D8), Color(0xFF724E84)],
               ),
               borderRadius: BorderRadius.circular(24),
             ),
@@ -119,7 +117,7 @@ class _MusicScreenState extends State<MusicScreen> {
               children: [
                 Icon(
                   Icons.headphones_rounded,
-                  color: Color(0xFFFFA6D5),
+                  color: Color(0xFFFF9FD3),
                   size: 42,
                 ),
                 SizedBox(height: 18),
@@ -144,7 +142,7 @@ class _MusicScreenState extends State<MusicScreen> {
           const Text(
             'YOUR COZY PLAYLIST',
             style: TextStyle(
-              color: Color(0xFFFFA6D5),
+              color: Color(0xFFFF9FD3),
               letterSpacing: 2,
               fontSize: 12,
               fontWeight: FontWeight.bold,
@@ -160,13 +158,13 @@ class _MusicScreenState extends State<MusicScreen> {
               padding: const EdgeInsets.all(14),
               decoration: BoxDecoration(
                 color: selected
-                    ? const Color(0xFF422B59)
-                    : const Color(0xFF281B36),
+                    ? const Color(0xFF75548B)
+                    : const Color(0xFF61466D),
                 borderRadius: BorderRadius.circular(18),
                 border: Border.all(
                   color: selected
-                      ? const Color(0xFFFFA6D5)
-                      : const Color(0xFF382747),
+                      ? const Color(0xFFFF9FD3)
+                      : const Color(0xFF7D5D8F),
                 ),
               ),
               child: Row(
@@ -175,16 +173,16 @@ class _MusicScreenState extends State<MusicScreen> {
                     width: 54,
                     height: 54,
                     decoration: BoxDecoration(
-                      color: const Color(0xFF633A91),
+                      color: const Color(0xFFA970D8),
                       borderRadius: BorderRadius.circular(15),
                     ),
                     child: Icon(
                       index == 0
                           ? Icons.piano_rounded
                           : index == 1
-                              ? Icons.coffee_rounded
-                              : Icons.music_note_rounded,
-                      color: const Color(0xFFFFB8DF),
+                          ? Icons.coffee_rounded
+                          : Icons.music_note_rounded,
+                      color: const Color(0xFFFFC0E3),
                       size: 27,
                     ),
                   ),
@@ -212,7 +210,7 @@ class _MusicScreenState extends State<MusicScreen> {
                         Text(
                           track['mood']!,
                           style: const TextStyle(
-                            color: Color(0xFFFFA6D5),
+                            color: Color(0xFFFF9FD3),
                             fontSize: 10,
                             letterSpacing: 1.2,
                           ),
@@ -221,14 +219,12 @@ class _MusicScreenState extends State<MusicScreen> {
                     ),
                   ),
                   IconButton(
-                    onPressed: _isLoading
-                        ? null
-                        : () => _toggleTrack(index),
+                    onPressed: _isLoading ? null : () => _toggleTrack(index),
                     icon: Icon(
                       selected && _isPlaying
                           ? Icons.pause_circle_filled_rounded
                           : Icons.play_circle_fill_rounded,
-                      color: const Color(0xFFFFA6D5),
+                      color: const Color(0xFFFF9FD3),
                       size: 39,
                     ),
                   ),

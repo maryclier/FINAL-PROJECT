@@ -1,4 +1,5 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
+
 import '../models/coffee_item.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -17,10 +18,10 @@ class HomeScreen extends StatelessWidget {
     required this.onAdd,
   });
 
-  static const Color background = Color(0xFF160F20);
-  static const Color cardColor = Color(0xFF281B36);
-  static const Color purple = Color(0xFF633A91);
-  static const Color pink = Color(0xFFFFA6D5);
+  static const Color background = Color(0xFF463453);
+  static const Color cardColor = Color(0xFF61466D);
+  static const Color purple = Color(0xFFA970D8);
+  static const Color pink = Color(0xFFFF9FD3);
 
   @override
   Widget build(BuildContext context) {
@@ -100,10 +101,7 @@ class HomeScreen extends StatelessWidget {
                   const SizedBox(height: 7),
                   const Text(
                     'Your little corner of comfort awaits.',
-                    style: TextStyle(
-                      color: Colors.white70,
-                      fontSize: 14,
-                    ),
+                    style: TextStyle(color: Colors.white70, fontSize: 14),
                   ),
                   const SizedBox(height: 22),
                   ClipRRect(
@@ -224,9 +222,7 @@ class HomeScreen extends StatelessWidget {
                     decoration: BoxDecoration(
                       color: cardColor,
                       borderRadius: BorderRadius.circular(20),
-                      border: Border.all(
-                        color: purple.withValues(alpha: 0.7),
-                      ),
+                      border: Border.all(color: purple.withValues(alpha: 0.7)),
                     ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -385,11 +381,7 @@ class HomeScreen extends StatelessWidget {
                       ),
                       child: const Row(
                         children: [
-                          Icon(
-                            Icons.headphones_rounded,
-                            color: pink,
-                            size: 31,
-                          ),
+                          Icon(Icons.headphones_rounded, color: pink, size: 31),
                           SizedBox(width: 13),
                           Expanded(
                             child: Column(

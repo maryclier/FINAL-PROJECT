@@ -1,18 +1,14 @@
-
 import 'package:flutter/material.dart';
 
-const Color darkPurple = Color(0xFF170F22);
-const Color deepPurple = Color(0xFF30203D);
-const Color pink = Color(0xFFF2A6D0);
-const Color lilac = Color(0xFFBBA6D0);
+const Color darkPurple = Color(0xFF463453);
+const Color deepPurple = Color(0xFF654977);
+const Color pink = Color(0xFFFF9FD3);
+const Color lilac = Color(0xFFE0CDEA);
 
 class LoginScreen extends StatefulWidget {
-  final VoidCallback onLogin;
+  final Future<void> Function(String name, String email) onLogin;
 
-  const LoginScreen({
-    super.key,
-    required this.onLogin,
-  });
+  const LoginScreen({super.key, required this.onLogin});
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
@@ -25,6 +21,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final passwordController = TextEditingController();
 
   bool hidePassword = true;
+  bool _signingIn = false;
 
   @override
   void dispose() {
@@ -34,9 +31,17 @@ class _LoginScreenState extends State<LoginScreen> {
     super.dispose();
   }
 
-  void signIn() {
+  Future<void> signIn() async {
     if (!formKey.currentState!.validate()) return;
-    widget.onLogin();
+    setState(() => _signingIn = true);
+    try {
+      await widget.onLogin(
+        nameController.text.trim(),
+        emailController.text.trim(),
+      );
+    } finally {
+      if (mounted) setState(() => _signingIn = false);
+    }
   }
 
   @override
@@ -59,9 +64,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       decoration: BoxDecoration(
                         color: deepPurple,
                         borderRadius: BorderRadius.circular(27),
-                        border: Border.all(
-                          color: pink.withValues(alpha: 0.5),
-                        ),
+                        border: Border.all(color: pink.withValues(alpha: 0.5)),
                       ),
                       child: const Icon(
                         Icons.coffee_rounded,
@@ -85,10 +88,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   const Text(
                     'A little pause, a little peace.',
                     textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: lilac,
-                    ),
+                    style: TextStyle(fontSize: 14, color: lilac),
                   ),
                   const SizedBox(height: 38),
                   const Text(
@@ -147,22 +147,23 @@ class _LoginScreenState extends State<LoginScreen> {
                     controller: passwordController,
                     obscureText: hidePassword,
                     style: const TextStyle(color: Colors.white),
-                    decoration: inputStyle(
-                      'Password',
-                      Icons.lock_outline_rounded,
-                    ).copyWith(
-                      suffixIcon: IconButton(
-                        onPressed: () {
-                          setState(() => hidePassword = !hidePassword);
-                        },
-                        icon: Icon(
-                          hidePassword
-                              ? Icons.visibility_off_outlined
-                              : Icons.visibility_outlined,
-                          color: lilac,
+                    decoration:
+                        inputStyle(
+                          'Password',
+                          Icons.lock_outline_rounded,
+                        ).copyWith(
+                          suffixIcon: IconButton(
+                            onPressed: () {
+                              setState(() => hidePassword = !hidePassword);
+                            },
+                            icon: Icon(
+                              hidePassword
+                                  ? Icons.visibility_off_outlined
+                                  : Icons.visibility_outlined,
+                              color: lilac,
+                            ),
+                          ),
                         ),
-                      ),
-                    ),
                     validator: (value) {
                       if (value == null || value.length < 4) {
                         return 'Password must have at least 4 characters';
@@ -174,7 +175,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   SizedBox(
                     height: 52,
                     child: FilledButton(
-                      onPressed: signIn,
+                      onPressed: _signingIn ? null : signIn,
                       style: FilledButton.styleFrom(
                         backgroundColor: pink,
                         foregroundColor: darkPurple,
@@ -182,13 +183,22 @@ class _LoginScreenState extends State<LoginScreen> {
                           borderRadius: BorderRadius.circular(15),
                         ),
                       ),
-                      child: const Text(
-                        'Enter My Cozy Space  →',
-                        style: TextStyle(
-                          fontSize: 15,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
+                      child: _signingIn
+                          ? const SizedBox(
+                              width: 22,
+                              height: 22,
+                              child: CircularProgressIndicator(
+                                strokeWidth: 2.5,
+                                color: darkPurple,
+                              ),
+                            )
+                          : const Text(
+                              'Enter My Cozy Space  →',
+                              style: TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
                     ),
                   ),
                   const SizedBox(height: 18),
@@ -220,9 +230,7 @@ class _LoginScreenState extends State<LoginScreen> {
       errorStyle: const TextStyle(color: pink),
       enabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(15),
-        borderSide: BorderSide(
-          color: lilac.withValues(alpha: 0.2),
-        ),
+        borderSide: BorderSide(color: lilac.withValues(alpha: 0.2)),
       ),
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(15),
